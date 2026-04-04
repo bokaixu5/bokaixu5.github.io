@@ -20,15 +20,15 @@ const text = t(lang);
   <input
     id="site-search"
     type="search"
+    class="search-input"
     data-search-input
     placeholder={text.blog.searchPlaceholder}
     autocomplete="off"
-    style="margin-top:0.4rem;width:100%;padding:0.6rem 0.75rem;border:1px solid var(--line);border-radius:8px;background:white;"
   />
-  <p data-search-hint style="margin-top:0.55rem;margin-bottom:0;color:var(--muted);font-size:0.9rem;">
+  <p class="search-hint" data-search-hint>
     {text.blog.searchHint}
   </p>
-  <ul data-search-results style="margin-top:0.65rem;padding-left:1rem;"></ul>
+  <ul class="search-results" data-search-results></ul>
 </section>
 
 <script is:inline>
@@ -87,7 +87,7 @@ const text = t(lang);
           count += 1;
 
           const li = document.createElement("li");
-          li.style.marginBottom = "0.4rem";
+          li.className = "search-result-item";
 
           const anchor = document.createElement("a");
           anchor.href = data.url;
@@ -106,4 +106,3 @@ const text = t(lang);
     }
   })();
 </script>
-

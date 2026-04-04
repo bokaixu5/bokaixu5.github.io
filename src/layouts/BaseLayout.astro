@@ -27,6 +27,8 @@ const pageDescription = description ?? siteConfig.subtitle[lang];
 const year = new Date().getFullYear();
 const gaId = import.meta.env.PUBLIC_GA_ID;
 const enableAnalytics = import.meta.env.PROD && Boolean(gaId);
+const darkModeLabel = lang === "zh" ? "切换到深色模式" : "Switch to dark mode";
+const lightModeLabel = lang === "zh" ? "切换到浅色模式" : "Switch to light mode";
 
 const navItems = [
   { key: "home", href: `/${lang}/` },
@@ -44,12 +46,16 @@ const navItems = [
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <link rel="canonical" href={`${siteConfig.url}${currentPath}`} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap"
-      rel="stylesheet"
-    />
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem("pref-theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isDark = stored === "dark" || (stored !== "light" && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
     {
       enableAnalytics && (
         <>
@@ -66,6 +72,75 @@ gtag('config', '${gaId}');`}
     }
   </head>
   <body>
+    <script is:inline>
+      (() => {
+        const storageKey = "pref-theme";
+        const root = document.documentElement;
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const syncClasses = (dark) => {
+          root.classList.toggle("dark", dark);
+          document.body.classList.toggle("dark", dark);
+        };
+
+        const emitThemeChange = (theme) => {
+          window.dispatchEvent(new CustomEvent("site-theme-change", { detail: { theme } }));
+        };
+
+        const updateToggleA11y = () => {
+          const button = document.querySelector("[data-theme-toggle]");
+          if (!(button instanceof HTMLButtonElement)) {
+            return;
+          }
+          const isDark = document.body.classList.contains("dark");
+          const nextLabel = isDark
+            ? button.dataset.labelLight || "Switch to light mode"
+            : button.dataset.labelDark || "Switch to dark mode";
+          button.setAttribute("aria-label", nextLabel);
+          button.setAttribute("title", nextLabel);
+          button.setAttribute("aria-pressed", String(isDark));
+        };
+
+        const applyTheme = (theme, persist) => {
+          const dark = theme === "dark";
+          syncClasses(dark);
+          if (persist) {
+            localStorage.setItem(storageKey, theme);
+          } else {
+            localStorage.removeItem(storageKey);
+          }
+          updateToggleA11y();
+          emitThemeChange(dark ? "dark" : "light");
+        };
+
+        syncClasses(root.classList.contains("dark"));
+
+        const onSystemThemeChange = (event) => {
+          if (localStorage.getItem(storageKey)) {
+            return;
+          }
+          applyTheme(event.matches ? "dark" : "light", false);
+        };
+
+        if (typeof mediaQuery.addEventListener === "function") {
+          mediaQuery.addEventListener("change", onSystemThemeChange);
+        } else if (typeof mediaQuery.addListener === "function") {
+          mediaQuery.addListener(onSystemThemeChange);
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+          updateToggleA11y();
+          const button = document.querySelector("[data-theme-toggle]");
+          if (button instanceof HTMLButtonElement) {
+            button.addEventListener("click", () => {
+              const nextTheme = document.body.classList.contains("dark") ? "light" : "dark";
+              applyTheme(nextTheme, true);
+            });
+          }
+          emitThemeChange(document.body.classList.contains("dark") ? "dark" : "light");
+        });
+      })();
+    </script>
     <div class="site-wrap">
       <header class="site-header">
         <div class="site-header-inner">
@@ -99,6 +174,49 @@ gtag('config', '${gaId}');`}
             >
               {text.common.languageSwitchLabel}
             </a>
+            <button
+              class="theme-toggle"
+              type="button"
+              data-theme-toggle
+              data-label-dark={darkModeLabel}
+              data-label-light={lightModeLabel}
+              aria-label={darkModeLabel}
+              title={darkModeLabel}
+              aria-pressed="false"
+            >
+              <svg
+                class="icon-moon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <svg
+                class="icon-sun"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </button>
           </nav>
         </div>
       </header>

@@ -15,7 +15,7 @@ const isEnabled = Boolean(repo && repoId && category && categoryId);
 const giscusLang = lang === "zh" ? "zh-CN" : "en";
 ---
 
-<section class="reveal" style="margin-top:2rem;">
+<section class="reveal" style="margin-top:2rem;" data-giscus-root>
   {
     isEnabled ? (
       <div class="panel">
@@ -32,11 +32,42 @@ const giscusLang = lang === "zh" ? "zh-CN" : "en";
           data-reactions-enabled="1"
           data-emit-metadata="0"
           data-input-position="top"
-          data-theme="light"
+          data-theme="preferred_color_scheme"
           data-lang={giscusLang}
           crossorigin="anonymous"
           async
         ></script>
+        <script is:inline>
+          (() => {
+            const root = document.currentScript?.closest("[data-giscus-root]");
+            if (!(root instanceof HTMLElement)) {
+              return;
+            }
+
+            const syncGiscusTheme = () => {
+              const frame = root.querySelector("iframe.giscus-frame");
+              if (!(frame instanceof HTMLIFrameElement) || !frame.contentWindow) {
+                return;
+              }
+              frame.contentWindow.postMessage(
+                { giscus: { setConfig: { theme: document.body.classList.contains("dark") ? "dark" : "light" } } },
+                "https://giscus.app",
+              );
+            };
+
+            const onThemeChange = () => window.requestAnimationFrame(syncGiscusTheme);
+
+            window.addEventListener("site-theme-change", onThemeChange);
+            window.addEventListener("message", (event) => {
+              if (event.origin !== "https://giscus.app") {
+                return;
+              }
+              onThemeChange();
+            });
+
+            setTimeout(syncGiscusTheme, 350);
+          })();
+        </script>
       </div>
     ) : (
       <p class="panel" style="color:var(--muted);">
