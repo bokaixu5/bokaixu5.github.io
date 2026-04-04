@@ -37,6 +37,7 @@ interface Props {
 const { lang, posts, projects } = Astro.props as Props;
 const text = t(lang);
 const otherLang = getOtherLang(lang);
+const profilePhotoAlt = lang === "zh" ? "Bokai 的头像照片" : "Portrait photo of Bokai";
 ---
 
 <BaseLayout
@@ -46,9 +47,20 @@ const otherLang = getOtherLang(lang);
   currentPath={`/${lang}/`}
   alternateHref={`/${otherLang}/`}
 >
-  <section class="reveal panel" style="margin-bottom:1.1rem;">
-    <h1>{text.home.title}</h1>
-    <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">{text.home.intro}</p>
+  <section class="reveal panel home-hero" style="margin-bottom:1.1rem;">
+    <img
+      class="home-avatar"
+      src="/images/bokai.jpg"
+      alt={profilePhotoAlt}
+      width="152"
+      height="152"
+      loading="eager"
+      decoding="async"
+    />
+    <div class="home-intro">
+      <h1>{text.home.title}</h1>
+      <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">{text.home.intro}</p>
+    </div>
   </section>
 
   <section style="margin-top:1.4rem;">
