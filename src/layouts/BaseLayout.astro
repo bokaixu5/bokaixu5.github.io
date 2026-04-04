@@ -1,0 +1,122 @@
+---
+import { DEFAULT_LANG, getOtherLang, isLang, t, type Lang } from "../config/i18n";
+import { siteConfig } from "../config/site";
+import "../styles/global.css";
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  currentPath: string;
+  alternateHref?: string;
+}
+
+const {
+  lang: rawLang,
+  title,
+  description,
+  currentPath,
+  alternateHref,
+} = Astro.props as Props;
+
+const lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+const pageTitle = title ? `${title} | ${siteConfig.title}` : siteConfig.title;
+const pageDescription = description ?? siteConfig.subtitle[lang];
+const year = new Date().getFullYear();
+const gaId = import.meta.env.PUBLIC_GA_ID;
+const enableAnalytics = import.meta.env.PROD && Boolean(gaId);
+
+const navItems = [
+  { key: "home", href: `/${lang}/` },
+  { key: "blog", href: `/${lang}/blog/` },
+  { key: "projects", href: `/${lang}/projects/` },
+  { key: "about", href: `/${lang}/about/` },
+] as const;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={`${siteConfig.url}${currentPath}`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,500;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    {
+      enableAnalytics && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+          <script
+            is:inline
+            set:html={`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaId}');`}
+          />
+        </>
+      )
+    }
+  </head>
+  <body>
+    <div class="site-wrap">
+      <header class="site-header">
+        <div class="site-header-inner">
+          <div class="brand">
+            <a href={`/${lang}/`}>{siteConfig.title}</a>
+            <span>{text.brandLine}</span>
+          </div>
+          <nav class="site-nav" aria-label="Primary">
+            {
+              navItems.map((item) => (
+                <a
+                  href={item.href}
+                  class={
+                    item.key === "home"
+                      ? currentPath === item.href
+                        ? "active"
+                        : undefined
+                      : currentPath.startsWith(item.href)
+                        ? "active"
+                        : undefined
+                  }
+                >
+                  {text.nav[item.key]}
+                </a>
+              ))
+            }
+            <a
+              class="lang-switch"
+              href={alternateHref ?? `/${otherLang}/`}
+              aria-label={text.common.languageSwitchLabel}
+            >
+              {text.common.languageSwitchLabel}
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="page-main">
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <p>
+          © {year} {siteConfig.title}. {text.footer.rights}
+        </p>
+        <p>
+          <a href={`mailto:${siteConfig.social.email}`}>Email</a>
+          <a href={siteConfig.social.github} target="_blank" rel="noreferrer">GitHub</a>
+          <a href={siteConfig.social.x} target="_blank" rel="noreferrer">X</a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

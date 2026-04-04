@@ -1,0 +1,86 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getOtherLang, t, type Lang } from "../../../config/i18n";
+import { buildTranslationMap, findTranslatedEntry, getSlug } from "../../../utils/content";
+
+type ProjectEntry = CollectionEntry<"projects">;
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection("projects");
+  const translationMap = buildTranslationMap(allProjects);
+
+  return allProjects.map((project) => {
+    const lang = project.data.lang;
+    const pair = findTranslatedEntry(
+      translationMap,
+      project.data.translationKey,
+      lang === "zh" ? "en" : "zh",
+    );
+
+    return {
+      params: {
+        lang,
+        slug: getSlug(project.id),
+      },
+      props: {
+        project,
+        pair,
+      },
+    };
+  });
+}
+
+interface Props {
+  project: ProjectEntry;
+  pair?: ProjectEntry;
+}
+
+const { project, pair } = Astro.props as Props;
+const lang = project.data.lang as Lang;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  lang={lang}
+  title={project.data.title}
+  description={project.data.summary}
+  currentPath={`/${lang}/projects/${getSlug(project.id)}/`}
+  alternateHref={
+    pair ? `/${otherLang}/projects/${getSlug(pair.id)}/` : `/${otherLang}/projects/`
+  }
+>
+  <a class="back-link" href={`/${lang}/projects/`}>← {text.common.backToProjects}</a>
+
+  <article class="panel reveal content-prose">
+    <h1>{project.data.title}</h1>
+    <p style="color:var(--muted);">{project.data.summary}</p>
+    <p style="margin-bottom:0.35rem;font-weight:600;">{text.projects.techStack}</p>
+    <div class="tags" style="margin-bottom:1rem;">
+      {project.data.tech.map((tech) => <span class="tag">{tech}</span>)}
+    </div>
+    <p style="margin-bottom:0.35rem;">
+      {project.data.repoUrl && (
+        <a href={project.data.repoUrl} target="_blank" rel="noreferrer">
+          {text.projects.visitRepo}
+        </a>
+      )}
+      {project.data.repoUrl && project.data.demoUrl && <span> · </span>}
+      {project.data.demoUrl && (
+        <a href={project.data.demoUrl} target="_blank" rel="noreferrer">
+          {text.projects.visitDemo}
+        </a>
+      )}
+    </p>
+    <Content />
+  </article>
+
+  {pair && (
+    <p class="reveal" style="margin-top:1rem;">
+      <a href={`/${otherLang}/projects/${getSlug(pair.id)}/`}>{text.common.relatedLanguageVersion}</a>
+    </p>
+  )}
+</BaseLayout>

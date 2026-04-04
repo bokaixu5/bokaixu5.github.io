@@ -1,0 +1,60 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../../config/i18n";
+import { getSlug } from "../../../utils/content";
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection("projects");
+  return SUPPORTED_LANGS.map((lang) => ({
+    params: { lang },
+    props: {
+      lang,
+      projects: allProjects
+        .filter((project) => project.data.lang === lang)
+        .sort((a, b) => Number(b.data.featured ?? false) - Number(a.data.featured ?? false)),
+    },
+  }));
+}
+
+interface Props {
+  lang: Lang;
+  projects: CollectionEntry<"projects">[];
+}
+
+const { lang, projects } = Astro.props as Props;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={text.projects.title}
+  description={text.projects.subtitle}
+  currentPath={`/${lang}/projects/`}
+  alternateHref={`/${otherLang}/projects/`}
+>
+  <section class="panel reveal" style="margin-bottom:1rem;">
+    <h1>{text.projects.title}</h1>
+    <p style="color:var(--muted);margin-bottom:0;">{text.projects.subtitle}</p>
+  </section>
+
+  <section class="grid grid-2">
+    {
+      projects.length ? (
+        projects.map((project) => (
+          <article class="panel reveal">
+            <h2 style="margin-bottom:0.3rem;">
+              <a href={`/${lang}/projects/${getSlug(project.id)}/`}>{project.data.title}</a>
+            </h2>
+            <p style="margin-bottom:0.65rem;">{project.data.summary}</p>
+            <p class="meta-row" style="margin-bottom:0;">{project.data.tech.join(" · ")}</p>
+          </article>
+        ))
+      ) : (
+        <p>{text.common.noContent}</p>
+      )
+    }
+  </section>
+</BaseLayout>

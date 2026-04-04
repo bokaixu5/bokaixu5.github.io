@@ -1,0 +1,105 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../config/i18n";
+import { getSlug, sortPostsByDateDesc } from "../../utils/content";
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection("posts")).filter((post) => !post.data.draft);
+  const allProjects = await getCollection("projects");
+
+  return SUPPORTED_LANGS.map((lang) => {
+    const posts = sortPostsByDateDesc(
+      allPosts.filter((post) => post.data.lang === lang),
+    ).slice(0, 2);
+    const projects = allProjects
+      .filter((project) => project.data.lang === lang)
+      .sort((a, b) => Number(b.data.featured ?? false) - Number(a.data.featured ?? false))
+      .slice(0, 3);
+    return {
+      params: { lang },
+      props: {
+        lang,
+        posts,
+        projects,
+      },
+    };
+  });
+}
+
+interface Props {
+  lang: Lang;
+  posts: CollectionEntry<"posts">[];
+  projects: CollectionEntry<"projects">[];
+}
+
+const { lang, posts, projects } = Astro.props as Props;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={text.home.title}
+  description={text.home.intro}
+  currentPath={`/${lang}/`}
+  alternateHref={`/${otherLang}/`}
+>
+  <section class="reveal panel" style="margin-bottom:1.1rem;">
+    <h1>{text.home.title}</h1>
+    <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">{text.home.intro}</p>
+  </section>
+
+  <section style="margin-top:1.4rem;">
+    <div class="section-head">
+      <h2>{text.common.latestPosts}</h2>
+      <a href={`/${lang}/blog/`}>{text.common.viewAll}</a>
+    </div>
+    <div class="grid">
+      {
+        posts.length ? (
+          posts.map((post) => (
+            <article class="panel reveal">
+              <h3 style="margin-bottom:0.45rem;">
+                <a href={`/${lang}/blog/${getSlug(post.id)}/`}>{post.data.title}</a>
+              </h3>
+              <p style="margin-bottom:0.3rem;color:var(--muted);">
+                {post.data.date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US")}
+              </p>
+              <p style="margin-bottom:0;">{post.data.description}</p>
+            </article>
+          ))
+        ) : (
+          <p>{text.common.noContent}</p>
+        )
+      }
+    </div>
+  </section>
+
+  <section style="margin-top:2rem;">
+    <div class="section-head">
+      <h2>{text.common.featuredProjects}</h2>
+      <a href={`/${lang}/projects/`}>{text.common.viewAll}</a>
+    </div>
+    <div class="grid grid-2">
+      {
+        projects.length ? (
+          projects.map((project) => (
+            <article class="panel reveal">
+              <h3 style="margin-bottom:0.45rem;">
+                <a href={`/${lang}/projects/${getSlug(project.id)}/`}>{project.data.title}</a>
+              </h3>
+              <p style="margin-bottom:0.5rem;">{project.data.summary}</p>
+              <p class="meta-row" style="margin:0;">
+                {project.data.tech.slice(0, 3).join(" · ")}
+              </p>
+            </article>
+          ))
+        ) : (
+          <p>{text.common.noContent}</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

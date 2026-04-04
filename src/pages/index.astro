@@ -1,0 +1,16 @@
+---
+const target = "/zh/";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <link rel="canonical" href={target} />
+    <script is:inline set:html={`window.location.replace('${target}');`} />
+  </head>
+  <body>
+    <p><a href={target}>Redirecting to {target}</a></p>
+  </body>
+</html>

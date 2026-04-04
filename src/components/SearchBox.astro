@@ -1,0 +1,109 @@
+---
+import { t, type Lang } from "../config/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+const text = t(lang);
+---
+
+<section
+  class="panel reveal"
+  data-search-root
+  data-lang={lang}
+  data-empty={text.blog.searchNoResult}
+  data-unavailable={text.blog.searchUnavailable}
+>
+  <label for="site-search">{text.blog.searchLabel}</label>
+  <input
+    id="site-search"
+    type="search"
+    data-search-input
+    placeholder={text.blog.searchPlaceholder}
+    autocomplete="off"
+    style="margin-top:0.4rem;width:100%;padding:0.6rem 0.75rem;border:1px solid var(--line);border-radius:8px;background:white;"
+  />
+  <p data-search-hint style="margin-top:0.55rem;margin-bottom:0;color:var(--muted);font-size:0.9rem;">
+    {text.blog.searchHint}
+  </p>
+  <ul data-search-results style="margin-top:0.65rem;padding-left:1rem;"></ul>
+</section>
+
+<script is:inline>
+  (async () => {
+    const containers = document.querySelectorAll("[data-search-root]");
+    for (const root of containers) {
+      if (!(root instanceof HTMLElement)) continue;
+      const input = root.querySelector("[data-search-input]");
+      const hint = root.querySelector("[data-search-hint]");
+      const resultsEl = root.querySelector("[data-search-results]");
+      if (
+        !(input instanceof HTMLInputElement) ||
+        !(hint instanceof HTMLElement) ||
+        !(resultsEl instanceof HTMLUListElement)
+      ) {
+        continue;
+      }
+
+      let searchFn = null;
+      try {
+        const pagefind = await import("/pagefind/pagefind.js");
+        searchFn = pagefind.debouncedSearch;
+      } catch (_error) {
+        hint.textContent = root.dataset.unavailable ?? "";
+        continue;
+      }
+
+      const lang = root.dataset.lang;
+      const emptyText = root.dataset.empty ?? "No results.";
+
+      input.addEventListener("input", async () => {
+        const query = input.value.trim();
+        resultsEl.innerHTML = "";
+        if (query.length < 2) {
+          return;
+        }
+
+        if (!searchFn) {
+          return;
+        }
+        const result = await searchFn(query);
+        if (!result || !result.results.length) {
+          const li = document.createElement("li");
+          li.textContent = emptyText;
+          resultsEl.appendChild(li);
+          return;
+        }
+
+        const top = result.results.slice(0, 6);
+        let count = 0;
+        for (const item of top) {
+          const data = await item.data();
+          if (!data.url.startsWith(`/${lang}/`)) {
+            continue;
+          }
+          count += 1;
+
+          const li = document.createElement("li");
+          li.style.marginBottom = "0.4rem";
+
+          const anchor = document.createElement("a");
+          anchor.href = data.url;
+          anchor.textContent = data.meta.title || data.url;
+
+          li.appendChild(anchor);
+          resultsEl.appendChild(li);
+        }
+
+        if (count === 0) {
+          const li = document.createElement("li");
+          li.textContent = emptyText;
+          resultsEl.appendChild(li);
+        }
+      });
+    }
+  })();
+</script>
+

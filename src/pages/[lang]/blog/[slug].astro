@@ -1,0 +1,107 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+import GiscusComments from "../../../components/GiscusComments.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getOtherLang, t, type Lang } from "../../../config/i18n";
+import {
+  buildTranslationMap,
+  findTranslatedEntry,
+  getSlug,
+  sortPostsByDateDesc,
+} from "../../../utils/content";
+import { readingTimeLabel } from "../../../utils/readingTime";
+
+type PostEntry = CollectionEntry<"posts">;
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection("posts")).filter((post) => !post.data.draft);
+  const byLang: Record<Lang, PostEntry[]> = {
+    zh: sortPostsByDateDesc(allPosts.filter((post) => post.data.lang === "zh")),
+    en: sortPostsByDateDesc(allPosts.filter((post) => post.data.lang === "en")),
+  };
+  const translationMap = buildTranslationMap(allPosts);
+
+  return allPosts.map((post) => {
+    const lang = post.data.lang as Lang;
+    const postsForLang = byLang[lang];
+    const index = postsForLang.findIndex((item) => item.id === post.id);
+    const older = index < postsForLang.length - 1 ? postsForLang[index + 1] : undefined;
+    const newer = index > 0 ? postsForLang[index - 1] : undefined;
+    const pair = findTranslatedEntry(
+      translationMap,
+      post.data.translationKey,
+      lang === "zh" ? "en" : "zh",
+    );
+
+    return {
+      params: {
+        lang,
+        slug: getSlug(post.id),
+      },
+      props: {
+        post,
+        older,
+        newer,
+        pair,
+      },
+    };
+  });
+}
+
+interface Props {
+  post: PostEntry;
+  older?: PostEntry;
+  newer?: PostEntry;
+  pair?: PostEntry;
+}
+
+const { post, older, newer, pair } = Astro.props as Props;
+const lang = post.data.lang as Lang;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  lang={lang}
+  title={post.data.title}
+  description={post.data.description}
+  currentPath={`/${lang}/blog/${getSlug(post.id)}/`}
+  alternateHref={
+    pair ? `/${otherLang}/blog/${getSlug(pair.id)}/` : `/${otherLang}/blog/`
+  }
+>
+  <a class="back-link" href={`/${lang}/blog/`}>← {text.common.backToBlog}</a>
+
+  <article class="panel reveal content-prose">
+    <h1>{post.data.title}</h1>
+    <p style="color:var(--muted);">{post.data.description}</p>
+    <div class="meta-row" style="margin-bottom:0.85rem;">
+      <span>{post.data.date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US")}</span>
+      <span>·</span>
+      <span>{readingTimeLabel(post.body ?? "", lang)}</span>
+    </div>
+    <div class="tags" style="margin-bottom:1rem;">
+      {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+    <Content />
+  </article>
+
+  {pair && (
+    <p class="reveal" style="margin-top:1rem;">
+      <a href={`/${otherLang}/blog/${getSlug(pair.id)}/`}>{text.common.relatedLanguageVersion}</a>
+    </p>
+  )}
+
+  <nav class="pager reveal">
+    <div>
+      {older && <a href={`/${lang}/blog/${getSlug(older.id)}/`}>← {text.common.previous}</a>}
+    </div>
+    <div style="text-align:right;">
+      {newer && <a href={`/${lang}/blog/${getSlug(newer.id)}/`}>{text.common.next} →</a>}
+    </div>
+  </nav>
+
+  <GiscusComments lang={lang} term={post.data.translationKey} />
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../config/i18n";
+import { siteConfig } from "../../config/site";
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={text.about.title}
+  description={text.about.subtitle}
+  currentPath={`/${lang}/about/`}
+  alternateHref={`/${otherLang}/about/`}
+>
+  <section class="panel reveal">
+    <h1>{text.about.title}</h1>
+    <p style="color:var(--muted);font-size:1.02rem;">{text.about.subtitle}</p>
+    <p class="content-prose">{text.about.intro}</p>
+  </section>
+
+  <section class="panel reveal" style="margin-top:1rem;">
+    <h2>{text.about.contactTitle}</h2>
+    <p>
+      <strong>Email:</strong> <a href={`mailto:${siteConfig.social.email}`}>{siteConfig.social.email}</a>
+    </p>
+    <p>
+      <strong>GitHub:</strong> <a href={siteConfig.social.github} target="_blank" rel="noreferrer">{siteConfig.social.github}</a>
+    </p>
+    <p style="margin-bottom:0;">
+      <strong>X:</strong> <a href={siteConfig.social.x} target="_blank" rel="noreferrer">{siteConfig.social.x}</a>
+    </p>
+  </section>
+</BaseLayout>
+
