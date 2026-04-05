@@ -39,6 +39,18 @@ const { lang, posts, projects } = Astro.props as Props;
 const text = t(lang);
 const otherLang = getOtherLang(lang);
 const profilePhotoAlt = lang === "zh" ? "Bokai 的头像照片" : "Portrait photo of Bokai";
+const clapUi =
+  lang === "zh"
+    ? {
+        defaultLabel: "拍手",
+        loadingLabel: "提交中...",
+        unavailableLabel: "暂不可用",
+      }
+    : {
+        defaultLabel: "Clap",
+        loadingLabel: "Saving...",
+        unavailableLabel: "Unavailable",
+      };
 ---
 
 <BaseLayout
@@ -59,7 +71,21 @@ const profilePhotoAlt = lang === "zh" ? "Bokai 的头像照片" : "Portrait phot
       decoding="async"
     />
     <div class="home-intro">
-      <h1>{text.home.title}</h1>
+      <div class="home-title-row" data-home-clap>
+        <button
+          type="button"
+          class="home-clap-button"
+          data-clap-button
+          data-label-default={clapUi.defaultLabel}
+          data-label-loading={clapUi.loadingLabel}
+          data-label-unavailable={clapUi.unavailableLabel}
+          aria-label={clapUi.defaultLabel}
+        >
+          <span class="home-clap-icon" aria-hidden="true">👏</span>
+          <span class="home-clap-count" data-clap-count hidden></span>
+        </button>
+        <h1>{text.home.title}</h1>
+      </div>
       <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">{text.home.intro}</p>
     </div>
   </section>
@@ -67,6 +93,87 @@ const profilePhotoAlt = lang === "zh" ? "Bokai 的头像照片" : "Portrait phot
   <section class="reveal" style="margin-bottom:1.4rem;">
     <SocialLinks lang={lang} variant="home" />
   </section>
+
+  <script is:inline>
+    (() => {
+      const roots = document.querySelectorAll("[data-home-clap]");
+      for (const root of roots) {
+        if (!(root instanceof HTMLElement) || root.dataset.clapBound === "1") {
+          continue;
+        }
+        root.dataset.clapBound = "1";
+
+        const button = root.querySelector("[data-clap-button]");
+        const countEl = root.querySelector("[data-clap-count]");
+        if (!(button instanceof HTMLButtonElement) || !(countEl instanceof HTMLElement)) {
+          continue;
+        }
+
+        const namespace = "bokaixu5-github-io";
+        const key = "home-clap-total";
+        let inFlight = false;
+
+        const setLabel = (label) => {
+          button.setAttribute("aria-label", label);
+          button.title = label;
+        };
+
+        const revealCount = (value) => {
+          countEl.hidden = false;
+          countEl.textContent = String(value);
+          button.classList.add("has-count", "is-popped");
+          window.setTimeout(() => {
+            button.classList.remove("is-popped");
+          }, 180);
+        };
+
+        const markUnavailable = () => {
+          const unavailable = button.dataset.labelUnavailable || "Unavailable";
+          button.disabled = true;
+          button.classList.add("is-unavailable");
+          countEl.hidden = false;
+          countEl.textContent = unavailable;
+          setLabel(unavailable);
+        };
+
+        button.addEventListener("click", async () => {
+          if (inFlight || button.disabled) {
+            return;
+          }
+          inFlight = true;
+          button.disabled = true;
+          button.classList.add("is-loading");
+          setLabel(button.dataset.labelLoading || "Saving...");
+
+          try {
+            const response = await fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`, {
+              method: "GET",
+              cache: "no-store",
+            });
+            if (!response.ok) {
+              throw new Error(`Count API error: ${response.status}`);
+            }
+            const payload = await response.json();
+            if (typeof payload?.value !== "number") {
+              throw new Error("Count API response is missing numeric value");
+            }
+            revealCount(payload.value);
+            button.disabled = false;
+          } catch (_error) {
+            markUnavailable();
+          } finally {
+            inFlight = false;
+            button.classList.remove("is-loading");
+            if (!button.disabled) {
+              setLabel(button.dataset.labelDefault || "Clap");
+            }
+          }
+        });
+
+        setLabel(button.dataset.labelDefault || "Clap");
+      }
+    })();
+  </script>
 
   <section style="margin-top:1.4rem;">
     <div class="section-head">

@@ -1,5 +1,5 @@
 export const SUPPORTED_LANGS = ["zh", "en"] as const;
-export const DEFAULT_LANG = "zh";
+export const DEFAULT_LANG = "en";
 
 export type Lang = (typeof SUPPORTED_LANGS)[number];
 

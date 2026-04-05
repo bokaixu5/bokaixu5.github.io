@@ -262,6 +262,74 @@ body.dark .theme-toggle .icon-moon {
   margin-bottom: 0;
 }
 
+.home-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.home-title-row h1 {
+  margin-bottom: 0;
+}
+
+.home-clap-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.33rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.22rem 0.6rem;
+  min-height: 32px;
+  color: var(--primary);
+  background: var(--code-bg);
+  border-bottom: 1px solid var(--border);
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, opacity 140ms ease;
+}
+
+.home-clap-button:hover,
+.home-clap-button:focus-visible {
+  border-color: var(--secondary);
+  transform: translateY(-1px);
+}
+
+.home-clap-button:focus-visible {
+  outline: none;
+}
+
+.home-clap-button:disabled {
+  cursor: wait;
+}
+
+.home-clap-icon {
+  font-size: 1.05rem;
+}
+
+.home-clap-count {
+  font-size: 0.8rem;
+  color: var(--secondary);
+}
+
+.home-clap-button.has-count .home-clap-count {
+  color: var(--primary);
+}
+
+.home-clap-button.is-loading {
+  opacity: 0.74;
+}
+
+.home-clap-button.is-unavailable {
+  opacity: 0.66;
+  cursor: not-allowed;
+}
+
+.home-clap-button.is-popped {
+  transform: translateY(-1px) scale(1.04);
+}
+
 .meta-row {
   color: var(--secondary);
   font-size: 0.9rem;
@@ -548,6 +616,14 @@ body.dark .theme-toggle .icon-moon {
   .reveal {
     animation: none;
   }
+
+  .home-clap-button {
+    transition: none;
+  }
+
+  .home-clap-button.is-popped {
+    transform: none;
+  }
 }
 
 @media (max-width: 760px) {
@@ -575,6 +651,11 @@ body.dark .theme-toggle .icon-moon {
 
   .home-hero {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-title-row {
+    flex-wrap: wrap;
     align-items: flex-start;
   }
 
