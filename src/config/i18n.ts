@@ -62,7 +62,7 @@ type LocaleText = {
 
 const localeText: Record<Lang, LocaleText> = {
   zh: {
-    brandLine: "研究驱动，持续构建",
+    brandLine: "保持热爱，奔赴下一场山海",
     nav: {
       home: "Home",
       about: "About",
@@ -120,7 +120,7 @@ const localeText: Record<Lang, LocaleText> = {
     },
   },
   en: {
-    brandLine: "Research-led, build-first",
+    brandLine: "Stay passionate, and set off for the next great adventure.",
     nav: {
       home: "Home",
       about: "About",
