@@ -40,7 +40,7 @@ npm run build
 - `/zh/projects/`, `/en/projects/`
 - `/zh/about/`, `/en/about/`
 
-Root `/` redirects to `/zh/`.
+Root `/` redirects to `/en/`.
 
 ## Content Model
 
@@ -68,6 +68,14 @@ Required frontmatter:
 - `repoUrl` (optional)
 - `demoUrl` (optional)
 - `featured` (optional)
+
+### `about`
+
+Required frontmatter:
+
+- `lang` (`zh` or `en`)
+- `title`
+- `subtitle`
 
 ## Environment Variables
 

@@ -1,48 +1,48 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../config/i18n";
-import { siteConfig } from "../../config/site";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 
-export function getStaticPaths() {
-  return SUPPORTED_LANGS.map((lang) => ({
-    params: { lang },
-    props: { lang },
-  }));
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SUPPORTED_LANGS, getOtherLang, type Lang } from "../../config/i18n";
+
+type AboutEntry = CollectionEntry<"about">;
+
+export async function getStaticPaths() {
+  const allAbout = await getCollection("about");
+
+  return SUPPORTED_LANGS.map((lang) => {
+    const about = allAbout.find((entry) => entry.data.lang === lang);
+    if (!about) {
+      throw new Error(`Missing about markdown for language: ${lang}`);
+    }
+
+    return {
+      params: { lang },
+      props: { lang, about },
+    };
+  });
 }
 
 interface Props {
   lang: Lang;
+  about: AboutEntry;
 }
 
-const { lang } = Astro.props as Props;
-const text = t(lang);
+const { lang, about } = Astro.props as Props;
 const otherLang = getOtherLang(lang);
+const { Content } = await render(about);
 ---
 
 <BaseLayout
   lang={lang}
-  title={text.about.title}
-  description={text.about.subtitle}
+  title={about.data.title}
+  description={about.data.subtitle}
   currentPath={`/${lang}/about/`}
   alternateHref={`/${otherLang}/about/`}
 >
-  <section class="panel reveal">
-    <h1>{text.about.title}</h1>
-    <p style="color:var(--muted);font-size:1.02rem;">{text.about.subtitle}</p>
-    <p class="content-prose">{text.about.intro}</p>
-  </section>
-
-  <section class="panel reveal" style="margin-top:1rem;">
-    <h2>{text.about.contactTitle}</h2>
-    <p>
-      <strong>Email:</strong> <a href={`mailto:${siteConfig.social.email}`}>{siteConfig.social.email}</a>
-    </p>
-    <p>
-      <strong>GitHub:</strong> <a href={siteConfig.social.github} target="_blank" rel="noreferrer">{siteConfig.social.github}</a>
-    </p>
-    <p style="margin-bottom:0;">
-      <strong>X:</strong> <a href={siteConfig.social.x} target="_blank" rel="noreferrer">{siteConfig.social.x}</a>
-    </p>
-  </section>
+  <article class="panel reveal content-prose">
+    <h1>{about.data.title}</h1>
+    <p style="color:var(--muted);font-size:1.02rem;">{about.data.subtitle}</p>
+    <Content />
+  </article>
 </BaseLayout>
 

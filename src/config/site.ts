@@ -11,7 +11,10 @@ export const siteConfig = {
   social: {
     email: "you@example.com",
     github: "https://github.com/yourname",
-    x: "https://x.com/yourname",
+    twitter: "https://twitter.com/yourname",
+    googleScholar: "https://scholar.google.com/citations?user=YOUR_ID",
+    xiaohongshu: "https://www.xiaohongshu.com/user/profile/YOUR_ID",
+    wechat: "your_wechat_id",
   },
   theme: {
     accent: "#c4653f",

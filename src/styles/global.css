@@ -380,6 +380,123 @@ body.dark .theme-toggle .icon-moon {
   color: inherit;
 }
 
+.social-links {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.social-links--home {
+  gap: 0.6rem;
+}
+
+.social-links--footer {
+  margin-top: 0.55rem;
+}
+
+.social-link {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.32rem 0.72rem;
+  color: var(--primary);
+  background: var(--entry);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.84rem;
+  line-height: 1.1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.site-footer .social-link {
+  margin-right: 0;
+}
+
+.social-link svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  border-color: var(--secondary);
+  transform: translateY(-1px);
+}
+
+.social-link:focus-visible {
+  outline: none;
+}
+
+.social-links--footer .social-link {
+  padding: 0.28rem;
+  width: 31px;
+  height: 31px;
+  justify-content: center;
+}
+
+.social-links--footer .social-text {
+  display: none;
+}
+
+.social-link--button {
+  font-family: inherit;
+}
+
+.social-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.6rem);
+  min-width: 220px;
+  max-width: min(320px, 94vw);
+  padding: 0.75rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--entry);
+  box-shadow: 0 10px 25px color-mix(in srgb, var(--theme) 50%, transparent);
+  z-index: 40;
+}
+
+.social-popover-title {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.social-popover p {
+  margin-bottom: 0.38rem;
+  color: var(--secondary);
+  font-size: 0.85rem;
+}
+
+.social-popover-id {
+  margin-bottom: 0.65rem;
+  color: var(--primary);
+}
+
+.social-popover-close {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  background: var(--code-bg);
+  color: var(--primary);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.social-popover-close:hover,
+.social-popover-close:focus-visible {
+  border-color: var(--secondary);
+  outline: none;
+}
+
 .search-input {
   margin-top: 0.4rem;
   width: 100%;
@@ -464,5 +581,9 @@ body.dark .theme-toggle .icon-moon {
   .home-avatar {
     width: 104px;
     height: 104px;
+  }
+
+  .social-links--footer {
+    width: 100%;
   }
 }

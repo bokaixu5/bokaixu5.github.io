@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 
+import SocialLinks from "../../components/SocialLinks.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../config/i18n";
 import { getSlug, sortPostsByDateDesc } from "../../utils/content";
@@ -61,6 +62,10 @@ const profilePhotoAlt = lang === "zh" ? "Bokai 的头像照片" : "Portrait phot
       <h1>{text.home.title}</h1>
       <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">{text.home.intro}</p>
     </div>
+  </section>
+
+  <section class="reveal" style="margin-bottom:1.4rem;">
+    <SocialLinks lang={lang} variant="home" />
   </section>
 
   <section style="margin-top:1.4rem;">

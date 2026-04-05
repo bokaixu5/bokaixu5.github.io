@@ -1,5 +1,6 @@
 ---
 import { DEFAULT_LANG, getOtherLang, isLang, t, type Lang } from "../config/i18n";
+import SocialLinks from "../components/SocialLinks.astro";
 import { siteConfig } from "../config/site";
 import "../styles/global.css";
 
@@ -230,11 +231,7 @@ gtag('config', '${gaId}');`}
         <p>
           © {year} {siteConfig.brandName}. {text.footer.rights}
         </p>
-        <p>
-          <a href={`mailto:${siteConfig.social.email}`}>Email</a>
-          <a href={siteConfig.social.github} target="_blank" rel="noreferrer">GitHub</a>
-          <a href={siteConfig.social.x} target="_blank" rel="noreferrer">X</a>
-        </p>
+        <SocialLinks lang={lang} variant="footer" />
       </footer>
     </div>
   </body>
