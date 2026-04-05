@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../../config/i18n";
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map((lang) => ({
+    params: { lang },
+    props: { lang },
+  }));
+}
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props as Props;
+const text = t(lang);
+const otherLang = getOtherLang(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={text.publications.title}
+  description={text.publications.subtitle}
+  currentPath={`/${lang}/publications/`}
+  alternateHref={`/${otherLang}/publications/`}
+>
+  <section class="panel reveal" style="margin-bottom:1rem;">
+    <h1>{text.publications.title}</h1>
+    <p style="color:var(--muted);margin-bottom:0;">{text.publications.subtitle}</p>
+  </section>
+
+  <section class="panel reveal">
+    <p style="margin:0;">{text.common.noContent}</p>
+  </section>
+</BaseLayout>

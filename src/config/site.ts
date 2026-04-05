@@ -2,6 +2,7 @@ import type { Lang } from "./i18n";
 
 export const siteConfig = {
   title: "Bokaiii Pages",
+  brandName: "Bokai Xu",
   url: "https://bokaixu5.github.io",
   subtitle: {
     zh: "关于 AI 工程、产品实践与长期写作",

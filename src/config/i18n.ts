@@ -7,9 +7,10 @@ type LocaleText = {
   brandLine: string;
   nav: {
     home: string;
-    blog: string;
-    projects: string;
     about: string;
+    blog: string;
+    publications: string;
+    projects: string;
   };
   common: {
     latestPosts: string;
@@ -44,6 +45,10 @@ type LocaleText = {
     visitRepo: string;
     visitDemo: string;
   };
+  publications: {
+    title: string;
+    subtitle: string;
+  };
   about: {
     title: string;
     subtitle: string;
@@ -60,9 +65,10 @@ const localeText: Record<Lang, LocaleText> = {
     brandLine: "研究驱动，持续构建",
     nav: {
       home: "Home",
-      blog: "Blog",
-      projects: "Projects",
       about: "About",
+      blog: "Blog",
+      publications: "Publications",
+      projects: "Projects",
     },
     common: {
       latestPosts: "最新文章",
@@ -78,7 +84,7 @@ const localeText: Record<Lang, LocaleText> = {
       backToProjects: "返回项目列表",
     },
     home: {
-      title: "你好，我是 Bokaiii。",
+      title: "你好，我是 Bokai Xu。",
       intro:
         "我关注 AI 工程、产品化和高质量写作。这个站点记录我的思考、项目与实践复盘。",
     },
@@ -98,6 +104,10 @@ const localeText: Record<Lang, LocaleText> = {
       visitRepo: "查看仓库",
       visitDemo: "查看演示",
     },
+    publications: {
+      title: "Publications",
+      subtitle: "公开发表的论文、文章与技术写作。",
+    },
     about: {
       title: "About",
       subtitle: "一个长期主义工程师的工作方式。",
@@ -113,9 +123,10 @@ const localeText: Record<Lang, LocaleText> = {
     brandLine: "Research-led, build-first",
     nav: {
       home: "Home",
-      blog: "Blog",
-      projects: "Projects",
       about: "About",
+      blog: "Blog",
+      publications: "Publications",
+      projects: "Projects",
     },
     common: {
       latestPosts: "Latest Posts",
@@ -131,7 +142,7 @@ const localeText: Record<Lang, LocaleText> = {
       backToProjects: "Back to projects",
     },
     home: {
-      title: "Hi, I am Bokaiii.",
+      title: "Hi, I am Bokai Xu.",
       intro:
         "I work on AI engineering, product execution, and technical writing. This site captures my notes, projects, and retrospectives.",
     },
@@ -150,6 +161,10 @@ const localeText: Record<Lang, LocaleText> = {
       techStack: "Tech stack",
       visitRepo: "Repository",
       visitDemo: "Live demo",
+    },
+    publications: {
+      title: "Publications",
+      subtitle: "Published papers, articles, and technical writing.",
     },
     about: {
       title: "About",
@@ -175,4 +190,3 @@ export function getOtherLang(lang: Lang): Lang {
 export function t(lang: Lang): LocaleText {
   return localeText[lang];
 }
-

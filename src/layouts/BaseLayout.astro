@@ -32,9 +32,10 @@ const lightModeLabel = lang === "zh" ? "切换到浅色模式" : "Switch to ligh
 
 const navItems = [
   { key: "home", href: `/${lang}/` },
-  { key: "blog", href: `/${lang}/blog/` },
-  { key: "projects", href: `/${lang}/projects/` },
   { key: "about", href: `/${lang}/about/` },
+  { key: "blog", href: `/${lang}/blog/` },
+  { key: "publications", href: `/${lang}/publications/` },
+  { key: "projects", href: `/${lang}/projects/` },
 ] as const;
 ---
 
@@ -145,7 +146,7 @@ gtag('config', '${gaId}');`}
       <header class="site-header">
         <div class="site-header-inner">
           <div class="brand">
-            <a href={`/${lang}/`}>{siteConfig.title}</a>
+            <a href={`/${lang}/`}>{siteConfig.brandName}</a>
             <span>{text.brandLine}</span>
           </div>
           <nav class="site-nav" aria-label="Primary">
@@ -227,7 +228,7 @@ gtag('config', '${gaId}');`}
 
       <footer class="site-footer">
         <p>
-          © {year} {siteConfig.title}. {text.footer.rights}
+          © {year} {siteConfig.brandName}. {text.footer.rights}
         </p>
         <p>
           <a href={`mailto:${siteConfig.social.email}`}>Email</a>
