@@ -86,7 +86,7 @@ const localeText: Record<Lang, LocaleText> = {
     home: {
       title: "你好，我是 Bokai Xu。",
       intro:
-        "我关注 AI 工程、产品化和高质量写作。这个站点记录我的思考、项目与实践复盘。",
+        "我的研究以构建可解释、可控的人工智能系统为愿景。我尤其关注世界模型与物理人工智能（Physical AI）的发展，使机器能够理解物理世界、对其进行推理，并与之交互。此外，我也致力于开发可解释的无线通信与感知系统，将数据驱动的智能与物理原理相结合。",
     },
     blog: {
       title: "Blog",
@@ -144,7 +144,7 @@ const localeText: Record<Lang, LocaleText> = {
     home: {
       title: "Hi, I am Bokai Xu.",
       intro:
-        "I work on AI engineering, product execution, and technical writing. This site captures my notes, projects, and retrospectives.",
+        "My research is driven by the vision of building AI systems that are interpretable and controllable. I am particularly interested in advancing world models and Physical AI to enable machines to understand, reason about, and interact with the physical world. Beyond this, I aim to develop interpretable wireless communication and sensing systems that bridge data-driven intelligence with physical principles.",
     },
     blog: {
       title: "Blog",

@@ -9,12 +9,12 @@ export const siteConfig = {
     en: "AI engineering, product execution, and long-form writing",
   } satisfies Record<Lang, string>,
   social: {
-    email: "you@example.com",
-    github: "https://github.com/yourname",
+    email: "bokaixu5@gmail.com",
+    github: "https://github.com/bokaixu5",
     twitter: "https://twitter.com/yourname",
     googleScholar: "https://scholar.google.com/citations?user=YOUR_ID",
-    xiaohongshu: "https://www.xiaohongshu.com/user/profile/YOUR_ID",
-    wechat: "your_wechat_id",
+    xiaohongshuQrImage: "/images/xiaohongshu-qr.jpg",
+    wechatQrImage: "/images/wechat-qr.jpg",
   },
   theme: {
     accent: "#c4653f",

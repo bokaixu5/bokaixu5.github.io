@@ -516,53 +516,77 @@ body.dark .theme-toggle .icon-moon {
   font-family: inherit;
 }
 
-.social-popover {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 0.6rem);
-  min-width: 220px;
-  max-width: min(320px, 94vw);
-  padding: 0.75rem 0.8rem;
+.social-qr-dialog {
+  width: min(420px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 1rem;
+  overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--entry);
-  box-shadow: 0 10px 25px color-mix(in srgb, var(--theme) 50%, transparent);
-  z-index: 40;
-}
-
-.social-popover-title {
-  margin-bottom: 0.35rem;
-  font-size: 0.9rem;
-  font-weight: 600;
   color: var(--primary);
+  background: var(--entry);
+  box-shadow: 0 16px 48px rgb(0 0 0 / 20%);
 }
 
-.social-popover p {
-  margin-bottom: 0.38rem;
+.social-qr-dialog::backdrop {
+  background: rgb(0 0 0 / 55%);
+}
+
+.social-qr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.social-qr-header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.social-qr-close {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  background: var(--code-bg);
+  color: var(--primary);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.social-qr-close:hover {
+  border-color: var(--secondary);
+}
+
+.social-qr-close:focus-visible,
+.social-qr-original:focus-visible,
+.social-link--button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.social-qr-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60dvh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.social-qr-hint {
+  margin: 0.75rem 0 0.5rem;
   color: var(--secondary);
   font-size: 0.85rem;
 }
 
-.social-popover-id {
-  margin-bottom: 0.65rem;
-  color: var(--primary);
-}
-
-.social-popover-close {
-  appearance: none;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.25rem 0.65rem;
-  background: var(--code-bg);
-  color: var(--primary);
-  font-size: 0.78rem;
-  cursor: pointer;
-}
-
-.social-popover-close:hover,
-.social-popover-close:focus-visible {
-  border-color: var(--secondary);
-  outline: none;
+.social-qr-original {
+  font-size: 0.85rem;
 }
 
 .search-input {
