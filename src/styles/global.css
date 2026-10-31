@@ -588,7 +588,8 @@ body.dark .theme-toggle .icon-moon {
   font-family: inherit;
 }
 
-.social-qr-dialog {
+.social-qr-dialog,
+.social-email-dialog {
   width: min(420px, calc(100vw - 2rem));
   max-height: calc(100dvh - 2rem);
   margin: auto;
@@ -601,7 +602,8 @@ body.dark .theme-toggle .icon-moon {
   box-shadow: 0 16px 48px rgb(0 0 0 / 20%);
 }
 
-.social-qr-dialog::backdrop {
+.social-qr-dialog::backdrop,
+.social-email-dialog::backdrop {
   background: rgb(0 0 0 / 55%);
 }
 
@@ -636,6 +638,7 @@ body.dark .theme-toggle .icon-moon {
 
 .social-qr-close:focus-visible,
 .social-qr-original:focus-visible,
+.social-email-address a:focus-visible,
 .social-link--button:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;
@@ -659,6 +662,13 @@ body.dark .theme-toggle .icon-moon {
 
 .social-qr-original {
   font-size: 0.85rem;
+}
+
+.social-email-address {
+  margin: 1.4rem 0 1rem;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .search-input {

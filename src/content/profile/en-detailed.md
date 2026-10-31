@@ -4,11 +4,11 @@ lang: en
 
 ## Academic Overview
 
-I have **27 papers accepted or published** in leading journals and conferences, including **7 first-author papers** and **3 corresponding-author papers**, with **over 300 citations**. My publications appear in venues including **IEEE JSAC, IEEE TWC, and AAAI**.
+I have **27 papers accepted or published** in leading journals and conferences, including **7 first-author papers** and **3 corresponding-author papers**, with **over 300 citations**. My publications appear in leading journals and conferences, including **IEEE JSAC, IEEE TWC, and AAAI**.
 
 <h2 id="awards">Honors and Awards</h2>
 
-- **2026: Second Prize in the North China Regional Division of the Huawei Wireless Algorithm Competition**.
+- **2026: Second Prize in the Huawei Wireless Algorithm Competition**.
 - **2026: First Prize in the data algorithm competition at the IEEE International Symposium on Information Theory (ISIT)**.
 - **2026: "6G Xingchen" doctoral honor**, Global 6G Technology and Industry Ecology Conference.
 - **2026: Selected for the doctoral student special program of the China Association for Science and Technology (CAST) Young Science and Technology Talent Development Program**.

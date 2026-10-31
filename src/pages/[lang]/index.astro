@@ -132,15 +132,15 @@ const clapUi =
         <>
           我预计于 <strong>2028 年春季毕业</strong>，正在积极寻找<strong>博士后研究岗位</strong>，同时也在寻求<strong>创业机会</strong>。
           我始终欢迎交流和潜在合作！如果你有适合我的岗位、有意开展合作，或者只是想聊聊研究，欢迎通过
-          <a href={`mailto:${siteConfig.social.email}`}>邮箱</a>或
-          <button type="button" class="inline-contact" data-social-qr-trigger aria-haspopup="dialog" aria-controls="social-home-wechat">微信</button>联系我。
+          <a href={`mailto:${siteConfig.social.email}`}>邮箱（{siteConfig.social.email}）</a>或
+          <button type="button" class="inline-contact" data-social-dialog-trigger aria-haspopup="dialog" aria-controls="social-home-wechat">微信（{siteConfig.social.wechatId}）</button>联系我。
         </>
       ) : (
         <>
           I expect to graduate in <strong>Spring 2028</strong> and am actively seeking research positions in <strong>Postdoctoral Research</strong>.
           {" "}Meanwhile, I am now seeking <strong>entrepreneurship opportunities</strong>.
           {" "}I’m always open to discussions and potential collaborations!
-          {" "}Feel free to reach out to me via <a href={`mailto:${siteConfig.social.email}`}>email</a> or <button type="button" class="inline-contact" data-social-qr-trigger aria-haspopup="dialog" aria-controls="social-home-wechat">wechat</button> if you have a potential role that might be a good fit, are interested in collaboration, or simply want to chat about research.
+          {" "}Feel free to reach out to me via <a href={`mailto:${siteConfig.social.email}`}>email ({siteConfig.social.email})</a> or <button type="button" class="inline-contact" data-social-dialog-trigger aria-haspopup="dialog" aria-controls="social-home-wechat">wechat ({siteConfig.social.wechatId})</button> if you have a potential role that might be a good fit, are interested in collaboration, or simply want to chat about research.
         </>
       )}
     </p>

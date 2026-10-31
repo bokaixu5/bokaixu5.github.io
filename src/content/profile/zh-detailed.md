@@ -4,14 +4,14 @@ lang: zh
 
 ## 学术概况
 
-我目前已在相关领域<strong>顶级期刊和会议</strong>录用或发表<strong>学术论文 27 篇</strong>，其中<strong>第一作者论文 7 篇</strong>、<strong>通讯作者论文 3 篇</strong>，累计引用 <strong>300 余次</strong>。论文发表于 <strong>IEEE JSAC、IEEE TWC</strong> 等顶级期刊以及人工智能会议 <strong>AAAI</strong>。
+我目前已在相关领域<strong>顶级期刊和会议</strong>录用或发表<strong>学术论文 27 篇</strong>，其中<strong>第一作者论文 7 篇</strong>、<strong>通讯作者论文 3 篇</strong>，累计引用 <strong>300 余次</strong>。论文发表于 <strong>IEEE JSAC、IEEE TWC</strong>，<strong>AAAI</strong> 等顶级期刊和会议。
 
 <h2 id="awards">荣誉与奖项</h2>
 
-- <strong>2026 年：华为无线算法比赛华北赛区二等奖</strong>。
+- <strong>2026 年：华为无线算法比赛二等奖</strong>。
 - <strong>2026 年：IEEE International Symposium on Information Theory（ISIT）数据算法竞赛一等奖</strong>。
 - <strong>2026 年：全球 6G 技术与产业生态大会“6G 星辰博士”</strong>。
-- <strong>入选2026年度中国科协青年科技人才培育工程博士生专项计划</strong>。
+- <strong>2026 年：入选中国科协青年科技人才培育工程博士生专项计划</strong>。
 - <strong>2025 年：泛在通信国际会议（International Conference on Ubiquitous Communication，Ucom）优秀研究生奖</strong>。
 - <strong>2023 年：IEEE International Conference on Communications（ICC）最佳论文奖（第一作者）</strong>。
 - <strong>2023 年：中兴通讯产学研优秀合作项目奖</strong>。

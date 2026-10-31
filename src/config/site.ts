@@ -14,6 +14,7 @@ export const siteConfig = {
     twitter: "https://twitter.com/yourname",
     googleScholar: "https://scholar.google.com/citations?user=MADxtRsAAAAJ",
     xiaohongshuQrImage: "/images/xiaohongshu-qr.jpg",
+    wechatId: "geekbokai",
     wechatQrImage: "/images/wechat-qr.jpg",
   },
   advisors: {
