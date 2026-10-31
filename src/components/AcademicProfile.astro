@@ -1,0 +1,42 @@
+---
+import { getEntry, render } from "astro:content";
+import type { Lang } from "../config/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const profile = await getEntry("profile", lang);
+if (!profile) {
+  throw new Error(`Missing academic profile for language: ${lang}`);
+}
+const { Content } = await render(profile);
+---
+
+<div class="academic-profile content-prose">
+  <Content />
+</div>
+
+<style>
+  .academic-profile {
+    max-width: none;
+  }
+
+  .academic-profile :global(h2) {
+    margin-top: 2rem;
+    scroll-margin-top: 160px;
+  }
+
+  .academic-profile :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .academic-profile :global(li) {
+    margin-bottom: 0.7rem;
+  }
+
+  .academic-profile :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

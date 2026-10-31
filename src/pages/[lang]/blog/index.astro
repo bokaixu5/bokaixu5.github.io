@@ -31,39 +31,37 @@ const otherLang = getOtherLang(lang);
 <BaseLayout
   lang={lang}
   title={text.blog.title}
-  description={text.blog.subtitle}
+  description={posts.length ? text.blog.subtitle : text.blog.title}
   currentPath={`/${lang}/blog/`}
   alternateHref={`/${otherLang}/blog/`}
 >
   <section class="panel reveal" style="margin-bottom:1rem;">
     <h1>{text.blog.title}</h1>
-    <p style="color:var(--muted);margin-bottom:0;">{text.blog.subtitle}</p>
+    {posts.length > 0 && (
+      <p style="color:var(--muted);margin-bottom:0;">{text.blog.subtitle}</p>
+    )}
   </section>
 
-  <SearchBox lang={lang} />
+  {posts.length > 0 && <SearchBox lang={lang} />}
 
-  <section style="margin-top:1rem;" class="grid">
-    {
-      posts.length ? (
-        posts.map((post) => (
-          <article class="panel reveal">
-            <h2 style="margin-bottom:0.35rem;">
-              <a href={`/${lang}/blog/${getSlug(post.id)}/`}>{post.data.title}</a>
-            </h2>
-            <p style="color:var(--muted);margin-bottom:0.55rem;">{post.data.description}</p>
-            <div class="meta-row">
-              <span>{post.data.date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US")}</span>
-              <span>·</span>
-              <span>{readingTimeLabel(post.body ?? "", lang)}</span>
-            </div>
-            <div class="tags" style="margin-top:0.65rem;">
-              {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
-            </div>
-          </article>
-        ))
-      ) : (
-        <p>{text.common.noContent}</p>
-      )
-    }
-  </section>
+  {posts.length > 0 && (
+    <section style="margin-top:1rem;" class="grid">
+      {posts.map((post) => (
+        <article class="panel reveal">
+          <h2 style="margin-bottom:0.35rem;">
+            <a href={`/${lang}/blog/${getSlug(post.id)}/`}>{post.data.title}</a>
+          </h2>
+          <p style="color:var(--muted);margin-bottom:0.55rem;">{post.data.description}</p>
+          <div class="meta-row">
+            <span>{post.data.date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US")}</span>
+            <span>·</span>
+            <span>{readingTimeLabel(post.body ?? "", lang)}</span>
+          </div>
+          <div class="tags" style="margin-top:0.65rem;">
+            {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </section>
+  )}
 </BaseLayout>

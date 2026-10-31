@@ -6,7 +6,7 @@ import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../../config/i18
 import { getSlug } from "../../../utils/content";
 
 export async function getStaticPaths() {
-  const allProjects = await getCollection("projects");
+  const allProjects = (await getCollection("projects")).filter((project) => !project.data.draft);
   return SUPPORTED_LANGS.map((lang) => ({
     params: { lang },
     props: {
@@ -31,30 +31,28 @@ const otherLang = getOtherLang(lang);
 <BaseLayout
   lang={lang}
   title={text.projects.title}
-  description={text.projects.subtitle}
+  description={projects.length ? text.projects.subtitle : text.projects.title}
   currentPath={`/${lang}/projects/`}
   alternateHref={`/${otherLang}/projects/`}
 >
   <section class="panel reveal" style="margin-bottom:1rem;">
     <h1>{text.projects.title}</h1>
-    <p style="color:var(--muted);margin-bottom:0;">{text.projects.subtitle}</p>
+    {projects.length > 0 && (
+      <p style="color:var(--muted);margin-bottom:0;">{text.projects.subtitle}</p>
+    )}
   </section>
 
-  <section class="grid grid-2">
-    {
-      projects.length ? (
-        projects.map((project) => (
-          <article class="panel reveal">
-            <h2 style="margin-bottom:0.3rem;">
-              <a href={`/${lang}/projects/${getSlug(project.id)}/`}>{project.data.title}</a>
-            </h2>
-            <p style="margin-bottom:0.65rem;">{project.data.summary}</p>
-            <p class="meta-row" style="margin-bottom:0;">{project.data.tech.join(" · ")}</p>
-          </article>
-        ))
-      ) : (
-        <p>{text.common.noContent}</p>
-      )
-    }
-  </section>
+  {projects.length > 0 && (
+    <section class="grid grid-2">
+      {projects.map((project) => (
+        <article class="panel reveal">
+          <h2 style="margin-bottom:0.3rem;">
+            <a href={`/${lang}/projects/${getSlug(project.id)}/`}>{project.data.title}</a>
+          </h2>
+          <p style="margin-bottom:0.65rem;">{project.data.summary}</p>
+          <p class="meta-row" style="margin-bottom:0;">{project.data.tech.join(" · ")}</p>
+        </article>
+      ))}
+    </section>
+  )}
 </BaseLayout>

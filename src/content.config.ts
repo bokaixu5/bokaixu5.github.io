@@ -26,6 +26,7 @@ const projects = defineCollection({
     repoUrl: z.url().optional(),
     demoUrl: z.url().optional(),
     featured: z.boolean().optional(),
+    draft: z.boolean().optional(),
   }),
 });
 
@@ -38,4 +39,11 @@ const about = defineCollection({
   }),
 });
 
-export const collections = { posts, projects, about };
+const profile = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/profile" }),
+  schema: z.object({
+    lang: z.enum(["zh", "en"]),
+  }),
+});
+
+export const collections = { posts, projects, about, profile };

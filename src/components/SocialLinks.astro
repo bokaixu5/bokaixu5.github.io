@@ -172,6 +172,9 @@ const qrProfiles = [
     }
 
     trigger.addEventListener("click", () => dialog.showModal());
+  }
+
+  for (const dialog of document.querySelectorAll<HTMLDialogElement>(".social-qr-dialog")) {
     dialog.addEventListener("click", (event) => {
       if (event.target !== dialog) {
         return;

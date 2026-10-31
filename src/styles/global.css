@@ -262,6 +262,78 @@ body.dark .theme-toggle .icon-moon {
   margin-bottom: 0;
 }
 
+.home-intro .home-biography {
+  margin-top: 1rem;
+}
+
+.home-opportunities {
+  border-inline-start: 3px solid var(--secondary);
+}
+
+.home-opportunities p {
+  margin-bottom: 0;
+}
+
+.inline-contact {
+  appearance: none;
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--tertiary);
+  border-radius: 0;
+  color: var(--primary);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.inline-contact:hover {
+  border-bottom-color: var(--primary);
+}
+
+.inline-contact:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.research-vision {
+  margin: 1.4rem 0;
+}
+
+.research-vision a {
+  display: block;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: zoom-in;
+}
+
+.research-vision a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.research-vision img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.research-vision figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.research-vision figcaption strong {
+  color: var(--ink);
+}
+
 .home-title-row {
   display: flex;
   align-items: center;

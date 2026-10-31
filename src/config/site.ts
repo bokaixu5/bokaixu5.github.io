@@ -12,9 +12,13 @@ export const siteConfig = {
     email: "bokaixu5@gmail.com",
     github: "https://github.com/bokaixu5",
     twitter: "https://twitter.com/yourname",
-    googleScholar: "https://scholar.google.com/citations?user=YOUR_ID",
+    googleScholar: "https://scholar.google.com/citations?user=MADxtRsAAAAJ",
     xiaohongshuQrImage: "/images/xiaohongshu-qr.jpg",
     wechatQrImage: "/images/wechat-qr.jpg",
+  },
+  advisors: {
+    jiayiZhang: "https://scholar.google.com/citations?user=ULgz3noAAAAJ",
+    yikChungWu: "https://scholar.google.com/citations?user=pEpkokUAAAAJ",
   },
   theme: {
     accent: "#c4653f",

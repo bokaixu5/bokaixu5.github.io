@@ -1,14 +1,16 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 
+import AcademicProfile from "../../components/AcademicProfile.astro";
 import SocialLinks from "../../components/SocialLinks.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../config/i18n";
+import { siteConfig } from "../../config/site";
 import { getSlug, sortPostsByDateDesc } from "../../utils/content";
 
 export async function getStaticPaths() {
   const allPosts = (await getCollection("posts")).filter((post) => !post.data.draft);
-  const allProjects = await getCollection("projects");
+  const allProjects = (await getCollection("projects")).filter((project) => !project.data.draft);
 
   return SUPPORTED_LANGS.map((lang) => {
     const posts = sortPostsByDateDesc(
@@ -38,6 +40,16 @@ interface Props {
 const { lang, posts, projects } = Astro.props as Props;
 const text = t(lang);
 const otherLang = getOtherLang(lang);
+const introHighlights = lang === "en" ? [
+  "interpretable and controllable",
+  "world models and Physical AI",
+  "physical world",
+  "communication and sensing systems",
+  "physical principles",
+] : [];
+const introParts = introHighlights.length
+  ? text.home.intro.split(new RegExp(`(${introHighlights.join("|")})`, "g"))
+  : [text.home.intro];
 const profilePhotoAlt = lang === "zh" ? "Bokai 的头像照片" : "Portrait photo of Bokai";
 const clapUi =
   lang === "zh"
@@ -86,12 +98,78 @@ const clapUi =
         </button>
         <h1>{text.home.title}</h1>
       </div>
-      <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">{text.home.intro}</p>
+      <p style="font-size:1.03rem;color:var(--muted);max-width:58ch;">
+        {introParts.map((part) => introHighlights.includes(part) ? <strong>{part}</strong> : part)}
+      </p>
+      <p class="home-biography">
+        {lang === "zh" ? (
+          <>
+            我目前在北京交通大学攻读博士学位，导师为
+            <a href={siteConfig.advisors.jiayiZhang} target="_blank" rel="noreferrer">Jiayi Zhang</a> 教授。
+            我曾于 2024 年 11 月至 2025 年 2 月在香港大学担任研究助理，导师为
+            <a href={siteConfig.advisors.yikChungWu} target="_blank" rel="noreferrer">Yik-Chung WU</a> 教授。
+            我于 2024 年获得北京交通大学工学学士学位。
+          </>
+        ) : (
+          <>
+            I am a Ph.D. student at Beijing Jiaotong University, advised by Prof. <a href={siteConfig.advisors.jiayiZhang} target="_blank" rel="noreferrer">Jiayi Zhang</a>.
+            {" "}I was a research assistant at The University of Hong Kong with Prof. <a href={siteConfig.advisors.yikChungWu} target="_blank" rel="noreferrer">Yik-Chung WU</a> (Nov. 2024 to Feb. 2025).
+            {" "}I received my B.Eng. from Beijing Jiaotong University in 2024.
+          </>
+        )}
+      </p>
     </div>
   </section>
 
   <section class="reveal" style="margin-bottom:1.4rem;">
     <SocialLinks lang={lang} variant="home" />
+  </section>
+
+  <section class="home-opportunities panel reveal" aria-labelledby="opportunities-title">
+    <h2 id="opportunities-title">{lang === "zh" ? "求职与合作" : "Opportunities and Collaboration"}</h2>
+    <p>
+      {lang === "zh" ? (
+        <>
+          我预计于 <strong>2028 年春季毕业</strong>，正在积极寻找<strong>博士后研究岗位</strong>，同时也在寻求<strong>创业机会</strong>。
+          我始终欢迎交流和潜在合作！如果你有适合我的岗位、有意开展合作，或者只是想聊聊研究，欢迎通过
+          <a href={`mailto:${siteConfig.social.email}`}>邮箱</a>或
+          <button type="button" class="inline-contact" data-social-qr-trigger aria-haspopup="dialog" aria-controls="social-home-wechat">微信</button>联系我。
+        </>
+      ) : (
+        <>
+          I expect to graduate in <strong>Spring 2028</strong> and am actively seeking research positions in <strong>Postdoctoral Research</strong>.
+          {" "}Meanwhile, I am now seeking <strong>entrepreneurship opportunities</strong>.
+          {" "}I’m always open to discussions and potential collaborations!
+          {" "}Feel free to reach out to me via <a href={`mailto:${siteConfig.social.email}`}>email</a> or <button type="button" class="inline-contact" data-social-qr-trigger aria-haspopup="dialog" aria-controls="social-home-wechat">wechat</button> if you have a potential role that might be a good fit, are interested in collaboration, or simply want to chat about research.
+        </>
+      )}
+    </p>
+  </section>
+
+  <figure class="research-vision panel reveal">
+    <a
+      href="/images/research-vision.png"
+      target="_blank"
+      rel="noreferrer"
+      aria-label={text.researchVision.openImage}
+    >
+      <img
+        src="/images/research-vision.png"
+        alt={text.researchVision.imageAlt}
+        width="1672"
+        height="941"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+    <figcaption>
+      <strong>{text.researchVision.title}</strong>
+      <span>{text.researchVision.hint}</span>
+    </figcaption>
+  </figure>
+
+  <section class="panel reveal" aria-label={text.home.academicTitle}>
+    <AcademicProfile lang={lang} />
   </section>
 
   <script is:inline>
@@ -175,55 +253,47 @@ const clapUi =
     })();
   </script>
 
-  <section style="margin-top:1.4rem;">
-    <div class="section-head">
-      <h2>{text.common.latestPosts}</h2>
-      <a href={`/${lang}/blog/`}>{text.common.viewAll}</a>
-    </div>
-    <div class="grid">
-      {
-        posts.length ? (
-          posts.map((post) => (
-            <article class="panel reveal">
-              <h3 style="margin-bottom:0.45rem;">
-                <a href={`/${lang}/blog/${getSlug(post.id)}/`}>{post.data.title}</a>
-              </h3>
-              <p style="margin-bottom:0.3rem;color:var(--muted);">
-                {post.data.date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US")}
-              </p>
-              <p style="margin-bottom:0;">{post.data.description}</p>
-            </article>
-          ))
-        ) : (
-          <p>{text.common.noContent}</p>
-        )
-      }
-    </div>
-  </section>
+  {posts.length > 0 && (
+    <section style="margin-top:1.4rem;">
+      <div class="section-head">
+        <h2>{text.common.latestPosts}</h2>
+        <a href={`/${lang}/blog/`}>{text.common.viewAll}</a>
+      </div>
+      <div class="grid">
+        {posts.map((post) => (
+          <article class="panel reveal">
+            <h3 style="margin-bottom:0.45rem;">
+              <a href={`/${lang}/blog/${getSlug(post.id)}/`}>{post.data.title}</a>
+            </h3>
+            <p style="margin-bottom:0.3rem;color:var(--muted);">
+              {post.data.date.toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US")}
+            </p>
+            <p style="margin-bottom:0;">{post.data.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 
-  <section style="margin-top:2rem;">
-    <div class="section-head">
-      <h2>{text.common.featuredProjects}</h2>
-      <a href={`/${lang}/projects/`}>{text.common.viewAll}</a>
-    </div>
-    <div class="grid grid-2">
-      {
-        projects.length ? (
-          projects.map((project) => (
-            <article class="panel reveal">
-              <h3 style="margin-bottom:0.45rem;">
-                <a href={`/${lang}/projects/${getSlug(project.id)}/`}>{project.data.title}</a>
-              </h3>
-              <p style="margin-bottom:0.5rem;">{project.data.summary}</p>
-              <p class="meta-row" style="margin:0;">
-                {project.data.tech.slice(0, 3).join(" · ")}
-              </p>
-            </article>
-          ))
-        ) : (
-          <p>{text.common.noContent}</p>
-        )
-      }
-    </div>
-  </section>
+  {projects.length > 0 && (
+    <section style="margin-top:2rem;">
+      <div class="section-head">
+        <h2>{text.common.featuredProjects}</h2>
+        <a href={`/${lang}/projects/`}>{text.common.viewAll}</a>
+      </div>
+      <div class="grid grid-2">
+        {projects.map((project) => (
+          <article class="panel reveal">
+            <h3 style="margin-bottom:0.45rem;">
+              <a href={`/${lang}/projects/${getSlug(project.id)}/`}>{project.data.title}</a>
+            </h3>
+            <p style="margin-bottom:0.5rem;">{project.data.summary}</p>
+            <p class="meta-row" style="margin:0;">
+              {project.data.tech.slice(0, 3).join(" · ")}
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>

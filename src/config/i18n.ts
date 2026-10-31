@@ -28,6 +28,13 @@ type LocaleText = {
   home: {
     title: string;
     intro: string;
+    academicTitle: string;
+  };
+  researchVision: {
+    title: string;
+    imageAlt: string;
+    openImage: string;
+    hint: string;
   };
   blog: {
     title: string;
@@ -48,6 +55,7 @@ type LocaleText = {
   publications: {
     title: string;
     subtitle: string;
+    morePapers: string;
   };
   about: {
     title: string;
@@ -87,6 +95,13 @@ const localeText: Record<Lang, LocaleText> = {
       title: "你好，我是 Bokai Xu。",
       intro:
         "我的研究以构建可解释、可控的人工智能系统为愿景。我尤其关注世界模型与物理人工智能（Physical AI）的发展，使机器能够理解物理世界、对其进行推理，并与之交互。此外，我也致力于开发可解释的无线通信与感知系统，将数据驱动的智能与物理原理相结合。",
+      academicTitle: "学术概况",
+    },
+    researchVision: {
+      title: "研究愿景",
+      imageAlt: "研究愿景：连接世界模型、物理人工智能与无线通信感知的可解释、可控、可泛化人工智能系统",
+      openImage: "在新标签页查看研究愿景原图",
+      hint: "点击图片查看原图",
     },
     blog: {
       title: "Blog",
@@ -106,7 +121,8 @@ const localeText: Record<Lang, LocaleText> = {
     },
     publications: {
       title: "Publications",
-      subtitle: "公开发表的论文、文章与技术写作。",
+      subtitle: "精选论文",
+      morePapers: "更多论文请访问 Google Scholar 主页",
     },
     about: {
       title: "About",
@@ -145,6 +161,13 @@ const localeText: Record<Lang, LocaleText> = {
       title: "Hi, I am Bokai Xu.",
       intro:
         "My research is driven by the vision of building AI systems that are interpretable and controllable. I am particularly interested in advancing world models and Physical AI to enable machines to understand, reason about, and interact with the physical world. Beyond this, I aim to develop interpretable wireless communication and sensing systems that bridge data-driven intelligence with physical principles.",
+      academicTitle: "Academic Overview",
+    },
+    researchVision: {
+      title: "Research Vision",
+      imageAlt: "Research vision: interpretable, controllable, and generalizable AI systems connecting world models, Physical AI, and wireless communication and sensing",
+      openImage: "Open the full-size research vision image in a new tab",
+      hint: "Click the image to view full size",
     },
     blog: {
       title: "Blog",
@@ -164,7 +187,8 @@ const localeText: Record<Lang, LocaleText> = {
     },
     publications: {
       title: "Publications",
-      subtitle: "Published papers, articles, and technical writing.",
+      subtitle: "Selected publications",
+      morePapers: "For more publications, visit my Google Scholar profile",
     },
     about: {
       title: "About",
