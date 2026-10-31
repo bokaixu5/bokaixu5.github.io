@@ -92,7 +92,7 @@ const localeText: Record<Lang, LocaleText> = {
       backToProjects: "返回项目列表",
     },
     home: {
-      title: "你好，我是 Bokai Xu。",
+      title: "你好，我是许柏恺",
       intro:
         "我的研究以构建可解释、可控的人工智能系统为愿景。我尤其关注世界模型与物理人工智能（Physical AI）的发展，使机器能够理解物理世界、对其进行推理，并与之交互。此外，我也致力于开发可解释的无线通信与感知系统，将数据驱动的智能与物理原理相结合。",
       academicTitle: "学术概况",
@@ -158,7 +158,7 @@ const localeText: Record<Lang, LocaleText> = {
       backToProjects: "Back to projects",
     },
     home: {
-      title: "Hi, I am Bokai Xu.",
+      title: "Hi, I am Bokai Xu",
       intro:
         "My research is driven by the vision of building AI systems that are interpretable and controllable. I am particularly interested in advancing world models and Physical AI to enable machines to understand, reason about, and interact with the physical world. Beyond this, I aim to develop interpretable wireless communication and sensing systems that bridge data-driven intelligence with physical principles.",
       academicTitle: "Academic Overview",

@@ -4,17 +4,19 @@ import type { Lang } from "../config/i18n";
 
 interface Props {
   lang: Lang;
+  variant?: "summary" | "detailed";
 }
 
-const { lang } = Astro.props;
-const profile = await getEntry("profile", lang);
+const { lang, variant = "summary" } = Astro.props;
+const profileId = variant === "detailed" ? `${lang}-detailed` : lang;
+const profile = await getEntry("profile", profileId);
 if (!profile) {
-  throw new Error(`Missing academic profile for language: ${lang}`);
+  throw new Error(`Missing academic profile: ${profileId}`);
 }
 const { Content } = await render(profile);
 ---
 
-<div class="academic-profile content-prose">
+<div class:list={["academic-profile", "content-prose", { "academic-profile--detailed": variant === "detailed" }]}>
   <Content />
 </div>
 
@@ -32,7 +34,7 @@ const { Content } = await render(profile);
     margin-top: 0;
   }
 
-  .academic-profile :global(li) {
+  .academic-profile--detailed :global(li) {
     margin-bottom: 0.7rem;
   }
 

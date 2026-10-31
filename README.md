@@ -52,8 +52,10 @@ are excluded from the home page, list pages, detail routes, and search index.
 
 Selected papers are maintained in `src/config/publications.ts`, with their
 thumbnails in `public/images/publications/`. Research introductions are in
-`src/content/about/{en,zh}/index.md`. The academic overview, awards, and research
-impact are shared by Home and About via `src/content/profile/{en,zh}.md`.
+`src/content/about/{en,zh}/index.md`. Home uses the paragraph-form academic
+profile in `src/content/profile/{en,zh}.md`; About uses the detailed sections
+in `src/content/profile/{en,zh}-detailed.md`. Keep factual updates consistent
+across both formats and languages.
 
 ### `posts`
 

@@ -68,7 +68,15 @@ const otherLang = getOtherLang(lang);
                 </>
               ))}.
             </p>
-            <p class="publication-venue">{publication.venue}, {publication.year}</p>
+            <p class="publication-venue">
+              {publication.venue}, {publication.year}
+              {publication.status === "accepted" && (lang === "zh" ? "（已录用）" : " (Accepted)")}
+            </p>
+            {publication.bestPaperAward && (
+              <p class="publication-award">
+                {lang === "zh" ? "最佳论文奖" : "Best Paper Award"}
+              </p>
+            )}
             <div class="publication-links">
               {publication.arxivId ? (
                 <a
@@ -223,6 +231,20 @@ const otherLang = getOtherLang(lang);
     flex-wrap: wrap;
     gap: 0.6rem;
     font-size: 1.2rem;
+  }
+
+  .publication-award {
+    display: table;
+    max-width: 100%;
+    margin: 0.45rem 0 0.6rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    color: var(--publication-link);
+    background: color-mix(in srgb, var(--publication-link) 8%, transparent);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.4;
   }
 
   .publication-links a {

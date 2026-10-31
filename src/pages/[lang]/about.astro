@@ -44,6 +44,6 @@ const { Content } = await render(about);
     <h1>{about.data.title}</h1>
     <p style="color:var(--muted);font-size:1.02rem;">{about.data.subtitle}</p>
     <Content />
-    <AcademicProfile lang={lang} />
+    <AcademicProfile lang={lang} variant="detailed" />
   </article>
 </BaseLayout>

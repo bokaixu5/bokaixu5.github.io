@@ -3,6 +3,8 @@ interface Publication {
   authors: string[];
   venue: string;
   year: number;
+  status?: "accepted";
+  bestPaperAward?: boolean;
   href: string;
   arxivId?: string;
   pdfHref?: string;
@@ -17,6 +19,7 @@ export const publications: Publication[] = [
     authors: ["Bokai Xu", "Zhe Wang", "Huahua Xiao", "Jiayi Zhang", "Bo Ai", "Derrick Wing Kwan Ng"],
     venue: "IEEE International Conference on Communications (ICC)",
     year: 2023,
+    bestPaperAward: true,
     href: "https://ieeexplore.ieee.org/document/10279327/",
     arxivId: "2302.00847",
     // Figure 2, page 5 of the arXiv paper.
@@ -28,7 +31,7 @@ export const publications: Publication[] = [
   {
     title: "Multi-Agent Reinforcement Learning for Movable Antenna-aided Cell-Free Massive MIMO Systems",
     authors: ["Bokai Xu", "Jiayi Zhang", "Shuaifei Chen", "Ziheng Liu", "Huahua Xiao", "Derrick Wing Kwan Ng", "Bo Ai"],
-    venue: "arXiv preprint",
+    venue: "IEEE Journal on Selected Areas in Communications (JSAC)",
     year: 2026,
     href: "https://arxiv.org/abs/2610.08387",
     arxivId: "2610.08387",
@@ -44,7 +47,10 @@ export const publications: Publication[] = [
     venue: "IEEE Journal on Selected Areas in Communications (JSAC)",
     year: 2026,
     href: "https://ieeexplore.ieee.org/document/11303197/",
-    coverLabel: "MaLAM4Com",
+    thumbnail: {
+      src: "/images/publications/malam4com.png",
+      alt: "MaLAM4Com framework: data preprocessing, multi-agent cooperative training, and downstream inference",
+    },
   },
   {
     title: "Scaling law for large wireless models",
@@ -62,8 +68,9 @@ export const publications: Publication[] = [
   {
     title: "HintKD: Hint Knowledge Distillation for Bandwidth-Constrained Cloud-Edge Inference",
     authors: ["Wanling Luo", "Jiayi Zhang", "Bokai Xu", "Ziheng Liu"],
-    venue: "arXiv preprint",
+    venue: "IEEE Global Communications Conference (GLOBECOM)",
     year: 2026,
+    status: "accepted",
     href: "https://arxiv.org/abs/2610.08412",
     arxivId: "2610.08412",
     // Figure 1, page 2 of the arXiv paper.
@@ -88,7 +95,7 @@ export const publications: Publication[] = [
   {
     title: "White-box AI model: Next frontier of wireless communications",
     authors: ["Jiayao Yang", "Jiayi Zhang", "Bokai Xu", "Jiakang Zheng", "Zhilong Liu", "Ziheng Liu", "Dusit Niyato", "M\u00e9rouane Debbah", "Zhu Han", "Bo Ai"],
-    venue: "arXiv preprint",
+    venue: "IEEE Network",
     year: 2025,
     href: "https://arxiv.org/abs/2504.09138",
     arxivId: "2504.09138",
