@@ -1,0 +1,33 @@
+---
+import { t, type Lang } from "../config/i18n";
+
+interface Props {
+  lang: Lang;
+  framed?: boolean;
+}
+
+const { lang, framed = false } = Astro.props;
+const text = t(lang).researchVision;
+---
+
+<figure class:list={["research-vision", { panel: framed, reveal: framed }]}>
+  <a
+    href="/images/research-vision.png"
+    target="_blank"
+    rel="noreferrer"
+    aria-label={text.openImage}
+  >
+    <img
+      src="/images/research-vision.png"
+      alt={text.imageAlt}
+      width="1672"
+      height="941"
+      loading="lazy"
+      decoding="async"
+    />
+  </a>
+  <figcaption>
+    <strong>{text.title}</strong>
+    <span>{text.hint}</span>
+  </figcaption>
+</figure>

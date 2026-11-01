@@ -2,6 +2,8 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
 import AcademicProfile from "../../components/AcademicProfile.astro";
+import ResearchThrusts from "../../components/ResearchThrusts.astro";
+import ResearchVision from "../../components/ResearchVision.astro";
 import SocialLinks from "../../components/SocialLinks.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { SUPPORTED_LANGS, getOtherLang, t, type Lang } from "../../config/i18n";
@@ -125,6 +127,8 @@ const clapUi =
     <SocialLinks lang={lang} variant="home" />
   </section>
 
+  <ResearchThrusts lang={lang} />
+
   <section class="home-opportunities panel reveal" aria-labelledby="opportunities-title">
     <h2 id="opportunities-title">{lang === "zh" ? "求职与合作" : "Opportunities and Collaboration"}</h2>
     <p>
@@ -146,27 +150,7 @@ const clapUi =
     </p>
   </section>
 
-  <figure class="research-vision panel reveal">
-    <a
-      href="/images/research-vision.png"
-      target="_blank"
-      rel="noreferrer"
-      aria-label={text.researchVision.openImage}
-    >
-      <img
-        src="/images/research-vision.png"
-        alt={text.researchVision.imageAlt}
-        width="1672"
-        height="941"
-        loading="lazy"
-        decoding="async"
-      />
-    </a>
-    <figcaption>
-      <strong>{text.researchVision.title}</strong>
-      <span>{text.researchVision.hint}</span>
-    </figcaption>
-  </figure>
+  <ResearchVision lang={lang} framed />
 
   <section class="panel reveal" aria-label={text.home.academicTitle}>
     <AcademicProfile lang={lang} />

@@ -30,6 +30,12 @@ type LocaleText = {
     intro: string;
     academicTitle: string;
   };
+  researchThrusts: {
+    intro: string;
+    itemLabel: string;
+    items: { title: string; description: string }[];
+    outlook: string;
+  };
   researchVision: {
     title: string;
     imageAlt: string;
@@ -97,6 +103,25 @@ const localeText: Record<Lang, LocaleText> = {
         "我的研究以构建可解释、可控的人工智能系统为愿景。我尤其关注世界模型与物理人工智能（Physical AI）的发展，使机器能够理解物理世界、对其进行推理，并与之交互。此外，我也致力于开发可解释的无线通信与感知系统，将数据驱动的智能与物理原理相结合。",
       academicTitle: "学术概况",
     },
+    researchThrusts: {
+      intro: "具体而言，我的研究主要围绕以下三个方向：",
+      itemLabel: "研究方向",
+      items: [
+        {
+          title: "信息论与因果物理智能",
+          description: "研究信息论、可解释表征、因果抽象，以及高信息效率的物理世界模型。",
+        },
+        {
+          title: "认知启发的物理智能",
+          description: "研究借鉴生物神经与认知机制的世界模型、动态推理和控制。",
+        },
+        {
+          title: "基于物理原理的神经算子学习",
+          description: "研究几何动力学、物理约束学习，以及用于运动和电磁系统的可解释神经算子。",
+        },
+      ],
+      outlook: "我们希望所设计的算法框架不仅可以应用于无线通信网络，还能赋能机器人协作、无人机控制……",
+    },
     researchVision: {
       title: "研究愿景",
       imageAlt: "研究愿景：连接世界模型、物理人工智能与无线通信感知的可解释、可控、可泛化人工智能系统",
@@ -162,6 +187,25 @@ const localeText: Record<Lang, LocaleText> = {
       intro:
         "My research is driven by the vision of building AI systems that are interpretable and controllable. I am particularly interested in advancing world models and Physical AI to enable machines to understand, reason about, and interact with the physical world. Beyond this, I aim to develop interpretable wireless communication and sensing systems that bridge data-driven intelligence with physical principles.",
       academicTitle: "Academic Overview",
+    },
+    researchThrusts: {
+      intro: "Specifically, my research focuses on the following three directions:",
+      itemLabel: "Research Thrust",
+      items: [
+        {
+          title: "Information-Theoretic & Causal Physical Intelligence",
+          description: "Research on information theory, interpretable representations, causal abstractions, and information-efficient physical world models.",
+        },
+        {
+          title: "Cognitive-Inspired Physical Intelligence",
+          description: "Research on world models, dynamic reasoning, and control inspired by biological neural and cognitive mechanisms.",
+        },
+        {
+          title: "Physics-Grounded Neural Operator Learning",
+          description: "Research on geometric dynamics, physics-constrained learning, and interpretable neural operators for motion and electromagnetic systems.",
+        },
+      ],
+      outlook: "We envision our algorithmic frameworks supporting not only wireless communication networks, but also robot collaboration, drone control...",
     },
     researchVision: {
       title: "Research Vision",

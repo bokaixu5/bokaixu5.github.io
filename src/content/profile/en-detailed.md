@@ -4,7 +4,7 @@ lang: en
 
 ## Academic Overview
 
-I have **27 papers accepted or published** in leading journals and conferences, including **7 first-author papers** and **3 corresponding-author papers**, with **over 300 citations**. My publications appear in leading journals and conferences, including **IEEE JSAC, IEEE TWC, and AAAI**.
+My publications appear in leading journals and conferences, including **IEEE JSAC, IEEE TWC, and AAAI**.
 
 <h2 id="awards">Honors and Awards</h2>
 

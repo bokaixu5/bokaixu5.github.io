@@ -52,7 +52,10 @@ are excluded from the home page, list pages, detail routes, and search index.
 
 Selected papers are maintained in `src/config/publications.ts`, with their
 thumbnails in `public/images/publications/`. Research introductions are in
-`src/content/about/{en,zh}/index.md`. Home uses the paragraph-form academic
+`src/content/about/{en,zh}/index.md`. The three research directions and research
+vision captions are maintained in `src/config/i18n.ts` and rendered by the shared
+`ResearchThrusts.astro` and `ResearchVision.astro` components on Home and About.
+Home uses the paragraph-form academic
 profile in `src/content/profile/{en,zh}.md`; About uses the detailed sections
 in `src/content/profile/{en,zh}-detailed.md`. Keep factual updates consistent
 across both formats and languages.

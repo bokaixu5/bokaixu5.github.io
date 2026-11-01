@@ -4,7 +4,7 @@ lang: zh
 
 ## 学术概况
 
-我目前已在相关领域<strong>顶级期刊和会议</strong>录用或发表<strong>学术论文 27 篇</strong>，其中<strong>第一作者论文 7 篇</strong>、<strong>通讯作者论文 3 篇</strong>，累计引用 <strong>300 余次</strong>。论文发表于 <strong>IEEE JSAC、IEEE TWC</strong>，<strong>AAAI</strong> 等顶级期刊和会议。
+论文发表于 <strong>IEEE JSAC、IEEE TWC</strong>，<strong>AAAI</strong> 等顶级期刊和会议。
 
 <h2 id="awards">荣誉与奖项</h2>
 

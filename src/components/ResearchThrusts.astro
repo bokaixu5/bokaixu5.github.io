@@ -1,0 +1,79 @@
+---
+import { t, type Lang } from "../config/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const text = t(lang).researchThrusts;
+---
+
+<section class="research-thrusts" aria-labelledby="research-thrusts-title">
+  <h2 id="research-thrusts-title">{text.intro}</h2>
+  <ol class="research-thrusts-list" role="list">
+    {text.items.map((item, index) => (
+      <li class="research-thrust">
+        <p class="research-thrust-label">{text.itemLabel} {index + 1}</p>
+        <h3>{item.title}</h3>
+        <p class="research-thrust-description">{item.description}</p>
+      </li>
+    ))}
+  </ol>
+  <p class="research-outlook">{text.outlook}</p>
+</section>
+
+<style>
+  .research-thrusts {
+    margin: 1.4rem 0;
+  }
+
+  .research-thrusts h2 {
+    margin: 0 0 1rem;
+    font-size: 1.03rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .research-thrusts-list {
+    margin: 0;
+    padding: 0 clamp(1rem, 3vw, 1.5rem);
+    list-style: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--entry);
+  }
+
+  .research-thrust {
+    padding: 1.25rem 0;
+  }
+
+  .research-thrust + .research-thrust {
+    border-top: 1px solid var(--border);
+  }
+
+  .research-thrust-label {
+    margin: 0 0 0.45rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .research-thrust h3 {
+    margin: 0 0 0.55rem;
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+
+  .research-thrust-description {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .research-outlook {
+    margin: 1rem 0 0;
+    line-height: 1.65;
+  }
+</style>
